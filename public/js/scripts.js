@@ -57,14 +57,23 @@ const toggleLock = (panel, lockIcon) => {
 };
 
 const copyHex = (event) => {
-  const hex = $(event.target).parents('.currentColor').text().trim();
+  const hexSpan = $(event.target).parents('.currentColor');
+  const hexCode = hexSpan.text().trim();
   const mockTextArea = document.createElement('textarea');
-  mockTextArea.value = hex;
+  mockTextArea.value = hexCode;
 
   document.body.appendChild(mockTextArea);
   mockTextArea.select();
   document.execCommand('copy');
   document.body.removeChild(mockTextArea);
+
+  hexSpan.html('Copied &#x2713;');
+
+  setTimeout(() => {
+    hexSpan.html(`<span>${hexCode} <i class="icon-clipboard"></i></span>`);
+    $('.icon-clipboard').on('click', copyHex);  
+  }, 800);
+
 };
 
 const keyboardCommands = (event) => {
