@@ -8,65 +8,101 @@
 </head>
 <body>
   <header>
-    <h1><i class="icon-palette"></i> Palette Picker <i class="icon-eyedropper"></i></h1>
+    <h1><i class="icon-palette"></i> Palette Picker <i class="icon-palette"></i></h1>
+    <div class="guide">
+        <h3><i class="icon-keyboard"></i>Keyboard Shortcuts<i class="icon-keyboard"></i></h3>
+        <div class="shortcuts">
+          <span>1</span>
+          <span>Lock 1</span>
+          <i class="icon-lock-open-1 shortLock1"></i>
+          <span class="shortcut-box short1"></span>
+          <span>2</span>
+          <span>Lock 2</span>
+          <i class="icon-lock-open-1 shortLock2"></i>
+          <span class="shortcut-box short2"></span>
+          <span>3</span>
+          <span>Lock 3</span>
+          <i class="icon-lock-open-1 shortLock3"></i>
+          <span class="shortcut-box short3"></span>
+          <span>4</span>
+          <span>Lock 4</span>
+          <i class="icon-lock-open-1 shortLock4"></i>
+          <span class="shortcut-box short4"></span>
+          <span>5</span>
+          <span>Lock 5</span>
+          <i class="icon-lock-open-1 shortLock5"></i>
+          <span class="shortcut-box short5"></span>
+          <span>SPACE</span>
+          <span class="shuffle">shuffle</span>
+        </div>
+      </div>
   </header>
   <main>
     <div class="colorFrames">
       <div class="colorFrame frame1">
-        <span class="currentColor color1"></span>
-        <span class="panelNumber">1</span>
-        <div class="buttonContainer">
+        <div class="infoContainer">
+          <span class="panelNumber">1</span>
+          <span class="currentColor color1"></span>
           <button class="editButton"><i class="icon-pencil-1"></i></button>
           <button class="lockButton"><i class="icon-lock-open-1"></i></button>
         </div>
       </div>
       <div class="colorFrame frame2">
-        <span class="currentColor color2"></span>
-        <span class="panelNumber">2</span>        
-        <div class="buttonContainer">
+        <div class="infoContainer">
+          <span class="panelNumber">2</span>        
+          <span class="currentColor color2"></span>
           <button class="editButton"><i class="icon-pencil-1"></i></button>
           <button class="lockButton"><i class="icon-lock-open-1"></i></button>
         </div>
       </div>
       <div class="colorFrame frame3">
-        <span class="currentColor color3"></span>
-        <span class="panelNumber">3</span>
-        <div class="buttonContainer">
+        <div class="infoContainer">
+          <span class="panelNumber">3</span>
+          <span class="currentColor color3"></span>
           <button class="editButton"><i class="icon-pencil-1"></i></button>
           <button class="lockButton"><i class="icon-lock-open-1"></i></button>
         </div>
       </div>
       <div class="colorFrame frame4">
-        <span class="currentColor color4"></span>
-        <span class="panelNumber">4</span>        
-        <div class="buttonContainer">
+        <div class="infoContainer">
+          <span class="panelNumber">4</span>        
+          <span class="currentColor color4"></span>
           <button class="editButton"><i class="icon-pencil-1"></i></button>
           <button class="lockButton"><i class="icon-lock-open-1"></i></button>
         </div>
       </div>
       <div class="colorFrame frame5">
-        <span class="currentColor color5"></span>
-        <span class="panelNumber">5</span>        
-        <div class="buttonContainer">
+        <div class="infoContainer">
+          <span class="panelNumber">5</span>        
+          <span class="currentColor color5"></span>
           <button class="editButton"><i class="icon-pencil-1"></i></button>
           <button class="lockButton"><i class="icon-lock-open-1"></i></button>
         </div>
       </div>
     </div>
-    <button class="generate">Generate New Palette!</button>
-    <div class="savePalette">
-      <div> folder drop down</div>
-      <input type="text" placeholder="Palette name" />
-      <button>Save Palette</button>
+    <button class="generate">shuffle</button>
+    <div class="saveSection">
+
+      <div class="saveProject">
+          <h3>Create a new Project:</h3>
+          <input type="text" class="projectInput" placeholder="New project name" />
+          <button class="submitProject">Save Project</button>
+      </div> 
+      <div class="savePalette">
+        <div class="projectOptions">
+          <h3>Select a Project to Save This Palette To</h3>
+          <div class="projectButtonContainer">
+          </div>
+        </div>
+        <input class="paletteName" type="text" placeholder="Palette name" />
+        <button class="submitPaletteSave">Save Palette</button>
+      </div>
     </div>
-    <hr>
-    <div class="saveProject">
-      <h3>Create a new Project:</h3>
-      <input type="text" placeholder="New project name" />
-      <button>Save Project</button>
-    </div>
-    <div class="projectList">
-      <div class="project">
+    <div class="paletteList">
+      <h1>Project Palettes:</h1>
+      <div class="paletteContainer">
+        <div class="project">
+      </div>
 
       </div>
     </div>
