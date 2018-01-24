@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
     table.text('color3');
     table.text('color4');
     table.text('color5');
-    table.integer('folder_id');
+    table.integer('project_id');
   });
 };
 
