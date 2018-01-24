@@ -1,11 +1,51 @@
 @import './fontello-39a7439d/css/fontello.css';
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700');
 
+body {
+  font-family: 'Open Sans', 'sans-serif';
+  background: white;
+  margin: 0px;
+}
+
 header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: rgb(24, 23, 23);
+  align-items: center;
   h1 {
     text-align: center;
     font-size: 60px;
     margin: 5px 0px;
+    color: rgb(233, 233, 233);
+  }
+
+  .guide {
+    background: rgb(0, 0, 0);
+    h3 {
+      text-align: center;
+      font-size: 40px;
+      margin: 0px;
+      color: rgb(233, 233, 233);
+    }
+    .shortcuts {
+      width: 360px;
+      margin: 0px auto;
+      display: grid;
+      grid-column-gap: 8px;
+      grid-row-gap: 3px;
+      grid-template-columns: 2fr 3fr 1fr 1fr 2fr 3fr 1fr 1fr;
+      grid-auto-flow: row;
+      justify-items: center;
+      padding-bottom: 15px;
+      color: rgb(233, 233, 233);
+      .shortcut-box {
+        width: 100%;
+      }
+      .shuffle {
+        grid-column: span 3;
+      }
+    }
+
   }
 }
 
@@ -13,99 +53,171 @@ main {
   .colorFrames {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    grid-gap: 20px;
-    padding-bottom: 30px;
-    max-width: 1600px;
-    margin: 0px auto;
+    padding-bottom: 10px;
+    width: 100%;
     .colorFrame {
-      height: 20vw;
+      height: 550px;
       min-height: 280px;
       background: black;
       position: relative;
-      border-radius: 8px;
       display: flex;
-      justify-content: center;
-      align-items: center;
       transition: .5s;
       box-sizing: border-box;
-      border: 9px solid rgba(255, 255, 255, 0);
+      border-bottom: 9px solid white;
       &.highlight {
-        border: 9px solid black;
+        border-bottom: 9px solid rgb(53, 53, 53);
       }
-
-      .panelNumber {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 140px;
-        color: rgba(0, 0, 0, 0.879);
-        font-weight: 300;
-        text-shadow: 3px 3px 3px rgb(18, 18, 18);
-        font-family: 'Open Sans', sans-serif;
-        padding-bottom: 50px;
-      }
-      .currentColor {
-        position: absolute;
-        bottom: 60px;
-        width: 100%;
-        font-size: 30px;
-        text-align: center;
-        color: white;
-        .icon-clipboard {
-          cursor: pointer;
-        }
-      }
-      .buttonContainer {
+      .infoContainer {
         position: absolute;
         bottom: 0;
         width: 100%;
-        display: flex;
+        display: grid;
+        align-items: center;
+        justify-content: center;
+        grid-template-columns: 1fr 3fr 3fr;
         box-sizing: border-box;
-        flex-wrap: nowrap;
+        background: rgba(0, 0, 0, 0.605);
+        .currentColor {
+          width: 100%;
+          font-size: 25px;
+          padding: 5px 0px;
+          grid-column: span 2;
+          text-align: center;
+          color: rgb(215, 215, 215);
+          .icon-clipboard {
+            cursor: pointer;
+          }
+        }
+        .panelNumber {
+          font-size: 38px;
+          color: white;
+          font-weight: 300;
+          height: 100%;
+          grid-row: span 2;
+          border-right: 1px solid rgb(215, 215, 215);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-shadow: 3px 3px 3px rgb(18, 18, 18);
+        }
         button {
           cursor: pointer;
-          width: 50%;
           font-size: 40px;
           text-align: center;
           background: none;
           border: none;
           padding: 8px;
-          border-top: 1px solid black;
-          &:hover {
-            background-color: rgba(0, 0, 0, 0.303);
-            color: white;
+          height: 57px;
+          border-top: 1px solid white;
+          color: white;
+          position: relative;
+          .icon-lock-1,
+          .icon-lock-open-1 {
+            position: absolute;
+            top: 10px;
           }
+
+          .icon-lock-1 {
+            left: calc(50% - 28px);            
+          }
+
+          .icon-lock-open-1 {
+            left: calc(50% - 22px);           
+          }
+
           &:nth-of-type(1) {
-            border-right: 1px solid black;
-            // border-radius: 0px 0px 0px 8px;
-          }
-          &:nth-of-type(2) {
-            // border-radius: 0px 0px 8px 0px;
+            border-right: 1px solid white;
           }
         }
 
       }
     }
   }
+
   .generate {
     display: flex;
     margin: 0px auto;
     font-size: 30px;
     background: white;
+    padding: 8px 30px;
+    color: white;
+    background: black;
     border: 1px solid black;
-    box-shadow: 3px 3px 3px 3px darkgray;
     cursor: pointer;
+    &:hover {
+      color: black;
+      background: white;
+    }
+  }
+
+  .saveSection {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
   }
 
   .savePalette {
-    padding-top: 50px;
+    padding: 10px;
     display: grid;
-    grid-gap: 15px;
-    grid-template-columns: 1fr 2fr 1fr;
-    width: 500px;
+    grid-gap: 10px;
+    grid-template-columns: 2fr 1fr;
     margin: 0px auto;
-    div {
+    height: 150px;
+    width: 100%;
+    box-sizing: border-box;
+    
+    .projectOptions {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: 1fr;
+      box-sizing: border-box;
+      h3 {
+        text-align: center;
+      }
+      .projectButtonContainer {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        box-sizing: border-box;
+        grid-gap: 5px;
+        .projectButton {
+          display: grid;
+          grid-template-columns: 1fr auto;
+          button {
+            height: 30px;
+            background: white;
+            border: 1px solid black;
+            position: relative;
+            cursor: pointer;
+            &.selected {
+              background: gray;
+              color: white;
+            }
+            &:hover {
+              background: rgb(48, 48, 48);
+              color: white;
+            }
+          }
+          i {
+            cursor: pointer;
+            font-size: 25px;
+            display: grid;
+            // justify-content: center;
+          }
+        }
+      }
+    }
+
+    .submitPaletteSave {
+      position: relative;
+    }
+
+    .createProjectError {
+      position: absolute;
+      color: red;
+      z-index: 10;
+      bottom: -40px; 
+      left: 0px;
       width: 100%;
+      font-weight: 700;
     }
   }
 
@@ -114,12 +226,49 @@ main {
     grid-gap: 15px;
     grid-template-columns: 2fr 1fr;
     margin: 0px auto;
-    width: 500px;
+    width: 100%;
+    padding: 10px;
+    padding-left: 30px;
+    box-sizing: border-box;
     h3 {
+      display: flex;
+      align-items: center;
       grid-column: span 3;
+      height: 50px;
+      margin: 0px;
     }
     input {
       grid-column: span 2;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .paletteList {
+    padding-left: 30px;
+    padding-bottom: 80px;
+    .paletteContainer {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr; 
+      .palette {
+        display: grid;
+        grid-template-columns: repeat(6, 50px);
+        width: 100%;
+        justify-items: center;
+        align-items: center;
+        h4 {
+          grid-column: span 6;
+        }
+        .paletteC {
+          width: 100%;
+          height: 50px;
+        }
+        i {
+          font-size: 30px;
+          cursor: pointer;
+        }
+      }
+
     }
   }
 }
