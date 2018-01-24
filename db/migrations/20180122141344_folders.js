@@ -1,10 +1,10 @@
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable('folders', table => {
-    table.increments('folder_id').primary();
-    table.text('folder_name');
+  return knex.schema.createTable('projects', table => {
+    table.increments('project_id').primary();
+    table.text('project_name');
   });
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTable('folders');
+  return knex.schema.dropTable('projects');
 };
