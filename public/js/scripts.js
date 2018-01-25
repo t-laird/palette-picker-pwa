@@ -1,9 +1,9 @@
 const frames = {
-  frame1: {frame: $('.frame1'), color: $('.color1'), hint: $('.short1'), lock: $('.shortLock1'), locked: false},
-  frame2: {frame: $('.frame2'), color: $('.color2'), hint: $('.short2'), lock: $('.shortLock2'), locked: false},
-  frame3: {frame: $('.frame3'), color: $('.color3'), hint: $('.short3'), lock: $('.shortLock3'), locked: false},
-  frame4: {frame: $('.frame4'), color: $('.color4'), hint: $('.short4'), lock: $('.shortLock4'), locked: false},
-  frame5: {frame: $('.frame5'), color: $('.color5'), hint: $('.short5'), lock: $('.shortLock5'), locked: false}
+  color1: {frame: $('.frame1'), color: $('.color1'), hint: $('.short1'), lock: $('.shortLock1'), locked: false},
+  color2: {frame: $('.frame2'), color: $('.color2'), hint: $('.short2'), lock: $('.shortLock2'), locked: false},
+  color3: {frame: $('.frame3'), color: $('.color3'), hint: $('.short3'), lock: $('.shortLock3'), locked: false},
+  color4: {frame: $('.frame4'), color: $('.color4'), hint: $('.short4'), lock: $('.shortLock4'), locked: false},
+  color5: {frame: $('.frame5'), color: $('.color5'), hint: $('.short5'), lock: $('.shortLock5'), locked: false}
 };
 
 let projects = [];
@@ -44,6 +44,7 @@ const createRandColor = () => {
 };
 
 const randomizeColors = () => {
+  let newRandomColors = [];
   for (var frameNum in frames) {
     if (!frames[frameNum].locked) {
       const randomColor = createRandColor();
@@ -53,22 +54,29 @@ const randomizeColors = () => {
       const html = `<span>${randomColor} <i class="icon-clipboard"></i></span>`;
       frames[frameNum].color.html(html);
     }
+    newRandomColors.push(frames[frameNum].color.text().trim());
   }
 
+  const circles = newRandomColors.map( (color, index) => constructCircle(color, index) );
+  animationLoop(circles);  
+
   $('.icon-clipboard').on('click', copyHex);
+
 };
 
 const toggleLockClick = (event) => {
   const targetFrame = $(event.target).parents('.colorFrame');
   const buttonIcon = event.target.children[0];
   const panelTarget = targetFrame[0].classList[1];
+  const stripId = new RegExp(/\d+/, 'i');
+  const panelId = panelTarget.match(stripId);  
 
-  toggleLock(panelTarget, buttonIcon);
+  toggleLock(`color${panelId}`, buttonIcon);
 };
 
 const toggleLockKey = (num) => {
-  const targetedFrame = `frame${num}`;
-  const frameLockButton = $(`.${targetedFrame}`).find('.lockButton');
+  const targetedFrame = `color${num}`;
+  const frameLockButton = $(`.frame${num}`).find('.lockButton');
   const frameLockIcon = frameLockButton.find('i');
 
   toggleLock(targetedFrame, frameLockIcon);
@@ -161,11 +169,33 @@ const deleteProject = async (event) => {
   });
 
   projects = projects.filter( project => project.project_id !== getId);
+  selectedProject = null;
   updateProjects();
+  updatePalettes();
 };
 
+const importPalette = (event) => {
+  const targetedPalette = $(event.target).parents('.palette');
+  const paletteClasses = $(targetedPalette).attr('class');
+  const stripId = new RegExp(/\d+/, 'i');
+  const getId = parseInt(paletteClasses.match(stripId)[0]);
+
+  const findPalette = palettes.find(palette => palette.palette_id === getId);
+  
+  for (var frame in frames) {
+    frames[frame].frame.css("background-color", findPalette[frame]);
+    frames[frame].hint.css("background-color", findPalette[frame]);
+  
+    const html = `<span>${findPalette[frame]} <i class="icon-clipboard"></i></span>`;
+    frames[frame].color.html(html);
+  }
+  const newColors = [findPalette.color1, findPalette.color2, findPalette.color3, findPalette.color4, findPalette.color5];
+
+  const circles = newColors.map( (color, index) => constructCircle(color, index) );  
+  animationLoop(circles);
+}
+
 const updatePalettes = () => {
-  console.log(palettes);
   const paletteDivs = palettes
     .filter(palette => palette.project_id === selectedProject)
       .map( palette => 
@@ -183,6 +213,7 @@ const updatePalettes = () => {
   
   $('.paletteContainer').html(paletteDivs);
   $('.palette').find('.icon-trash').on('click', deletePalette);
+  $('.paletteC').on('click', importPalette);
 };
 
 const updateProjects = () => {
@@ -252,6 +283,9 @@ const paletteSave = () => {
 
 const saveProject = async () => {
   const projectNameInput = $('.projectInput');
+  if (!projectNameInput.val().length) {
+    return
+  }
   
   const sendProject = await fetch('/api/v1/projects', {
     method: 'POST',
@@ -265,7 +299,9 @@ const saveProject = async () => {
   const newProject = Object.assign({}, {project_name: projectNameInput.val()}, {project_id: newProjectId});
   projects.push(newProject);
 
+  updateProjects();
   selectProjectByNew(newProjectId);
+  updatePalettes();
   projectNameInput.val('');
 };
 
@@ -300,3 +336,49 @@ $(document.body).click(closeDropdown);
 $('.submitPaletteSave').on('click', paletteSave);
 $('.submitProject').on('click', saveProject);
 
+const canvas = $('.colorVisualiztion')[0];
+const context = canvas.getContext('2d');
+
+class Circle {
+  constructor(x, y, xDir, yDir, color) {
+    this.x = x;
+    this.y = y;
+    this.xDir = xDir;
+    this.yDir = yDir;
+    this.color = color;
+  }
+
+  draw () {
+    context.beginPath();
+    context.arc(this.x, this.y, 60, 0, 2 * Math.PI, false);
+    context.fillStyle = this.color;
+    context.fill();
+  }
+}
+
+
+function constructCircle (color, index) {
+  const xDir = Math.floor(Math.random() * 3 + 1);
+  const yDir = Math.floor(Math.random() * 3 + 1);
+  return new Circle(100 + (index * 100), 100, xDir, yDir, color);
+}
+
+function animationLoop (circles) {
+  context.clearRect(0, 0, 600, 200);
+  circles.forEach(circle => { 
+    
+    circle.draw();
+    circle.x += circle.xDir;
+    circle.y += circle.yDir;
+
+    if (circle.x >= 540 || circle.x <= 60) {
+      circle.xDir *= -1;
+    }
+
+    if (circle.y >= 140 || circle.y <= 60) {
+      circle.yDir *= -1;
+    }
+  });
+
+  requestAnimationFrame(animationLoop.bind(this, circles));
+}
