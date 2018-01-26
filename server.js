@@ -19,7 +19,6 @@ app.listen(app.get('port'), () => {
 app.get('/api/v1/palettes/', (request, response) => {
   database('palettes').select()
     .then(palettes => {
-      console.log(palettes);
       return response.status(200).json({palettes});
     })
     .catch(palettes => {
@@ -30,7 +29,6 @@ app.get('/api/v1/palettes/', (request, response) => {
 app.get('/api/v1/projects/', (request, response) => {
   database('projects').select()
     .then(projects => {
-      console.log(projects);
       return response.status(200).json({projects});
     })
     .catch(() => {
@@ -40,11 +38,14 @@ app.get('/api/v1/projects/', (request, response) => {
 
 app.post('/api/v1/palettes/', (request, response) => {
   const { palette } = request.body;
+  console.log
 
-  if (!palette.palette_name) {
-    return response.status(422).json({error: 'Please enter a valid palette name'});
-  } else if (!palette.project_id) {
-    return response.status(422).json({error: 'Select a folder to insert a palette'});
+  let reqParams = ['color1', 'color2', 'color3', 'color4', 'color5', 'palette_name', 'project_id'];
+
+  for (let param of reqParams) {
+    if (!palette[param]) {
+      return response.status(422).json({error: `Please enter a valid ${param}`});
+    }
   }
 
   database('palettes').insert(palette).returning('palette_id')
@@ -58,8 +59,6 @@ app.post('/api/v1/palettes/', (request, response) => {
 
 app.post('/api/v1/projects/', (request, response) => {
   const { project } = request.body;
-
-  console.log(project);
 
   if (!project.project_name) {
     return response.status(422).json({error: 'Please enter a valid project name'});
@@ -100,3 +99,4 @@ app.delete('/api/v1/projects/:id', (request, response) => {
       });
 });
 
+module.exports = app;
