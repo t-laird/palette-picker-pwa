@@ -79,17 +79,24 @@ app.delete('/api/v1/palettes/:id', (request, response) => {
       .then(() => {
         response.sendStatus(204);
       })
-      .catch(() => {
-        response.status(500).json({status: 'Error: could not delete palette.'});
+      .catch((error) => {
+        response.status(500).json({ error });
       });
 });
 
 app.delete('/api/v1/projects/:id', (request, response) => {
-    database('projects').where('project_id', request.params.id).delete()
+    database('palettes').where('project_id', request.params.id).delete()
       .then(() => {
-        response.sendStatus(204);
+        database('projects').where('project_id', request.params.id).delete()
+          .then(() => {
+            return response.sendStatus(204);
+          })
+          .catch(( error ) => {
+            return response.status(500).json({ error });
+          });
       })
-      .catch(() => {
-        response.status(500).json({status: 'Error: could not delete palette.'});
+      .catch((error ) => {
+        response.status(500).json({ error })
       });
 });
+
