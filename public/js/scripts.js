@@ -1,3 +1,55 @@
+const canvas = $('.colorVisualiztion')[0];
+const context = canvas.getContext('2d');
+class Circle {
+  constructor(x, y, xDir, yDir, color) {
+    this.x = x;
+    this.y = y;
+    this.xDir = xDir;
+    this.yDir = yDir;
+    this.color = color;
+  }
+
+  draw () {
+    context.beginPath();
+    context.arc(this.x, this.y, 40, 0, 2 * Math.PI, false);
+    context.fillStyle = this.color;
+    context.fill();
+  }
+}
+
+
+function constructCircle (color, index) {
+  const xDir = Math.floor(Math.random() * 3 + 1);
+  const yDir = Math.floor(Math.random() * 3 + 1);
+  return new Circle(100 + (index * 100), 100, 3, 3, color);
+}
+
+function animationLoop (circles, run) {
+  circles.forEach(circle => { 
+    
+    circle.draw();
+    circle.x += circle.xDir;
+    circle.y += circle.yDir;
+
+    if (circle.x >= 940 || circle.x <= 60) {
+      circle.xDir *= -1;
+    }
+
+    if (circle.y >= 140 || circle.y <= 60) {
+      circle.yDir *= -1;
+    }
+  });
+
+  const isNotShowing = ($('canvas').css('display') === 'none');
+
+  if (isNotShowing) {
+    context.clearRect(0, 0, 1000, 200);
+    return;
+  }
+
+  requestAnimationFrame(animationLoop.bind(this, circles));
+}
+
 const frames = {
   color1: {frame: $('.frame1'), color: $('.color1'), hint: $('.short1'), lock: $('.shortLock1'), locked: false},
   color2: {frame: $('.frame2'), color: $('.color2'), hint: $('.short2'), lock: $('.shortLock2'), locked: false},
@@ -32,7 +84,6 @@ const getPalettes = async () => {
 
 const createRandColor = () => {
   const availableChars = ['F', 'E', 'D', 'C', 'B', 'A', 1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
-
   let hex = '#';
   
   for (var i = 0 ; i < 6 ; i++) {
@@ -42,6 +93,13 @@ const createRandColor = () => {
 
   return hex;
 };
+
+
+let circles = [];
+
+for (var i = 0 ; i < 5 ; i++) {
+  circles.push(constructCircle(undefined, i));
+}
 
 const randomizeColors = () => {
   let newRandomColors = [];
@@ -57,8 +115,9 @@ const randomizeColors = () => {
     newRandomColors.push(frames[frameNum].color.text().trim());
   }
 
-  const circles = newRandomColors.map( (color, index) => constructCircle(color, index) );
-  animationLoop(circles);  
+  newRandomColors.forEach( (color, index) => {
+    circles[index].color = color;
+  });
 
   $('.icon-clipboard').on('click', copyHex);
 
@@ -144,11 +203,11 @@ const deletePalette = async (event) => {
   const getId = parseInt(paletteClasses.match(stripId)[0]);
 
   const deleteResult = await fetch(`/api/v1/palettes/${getId}`, {
-    method: 'DELETE',
-    headers: {
-      'CONTENT-TYPE': 'application/json',
-    }
-  });
+      method: 'DELETE',
+      headers: {
+        'CONTENT-TYPE': 'application/json',
+      }
+    });
 
   palettes = palettes.filter( palette => palette.palette_id !== getId);
   updatePalettes();
@@ -191,8 +250,9 @@ const importPalette = (event) => {
   }
   const newColors = [findPalette.color1, findPalette.color2, findPalette.color3, findPalette.color4, findPalette.color5];
 
-  const circles = newColors.map( (color, index) => constructCircle(color, index) );  
-  animationLoop(circles);
+  newColors.forEach( (color, index)  => {
+    circles[index].color = color;
+  });
 }
 
 const updatePalettes = () => {
@@ -325,6 +385,19 @@ const selectProjectByNew = (id) => {
   $(`.project${id}`).addClass('selected');
 }
 
+const showVisualizer = () => {
+  const isShowing = $('canvas').hasClass('showVisualizer');
+  $('canvas').toggleClass('showVisualizer');
+
+  if (isShowing) {
+    $('.visualizerStartStop').text('Start Visualizer');
+  } else {
+    $('.visualizerStartStop').text('Stop Visualizer');
+    animationLoop(circles);  
+  }
+
+}
+
 
 
 $('document').ready(fetchInitialData);
@@ -335,50 +408,4 @@ $('.openSelect').on('click', expandSelect);
 $(document.body).click(closeDropdown);
 $('.submitPaletteSave').on('click', paletteSave);
 $('.submitProject').on('click', saveProject);
-
-const canvas = $('.colorVisualiztion')[0];
-const context = canvas.getContext('2d');
-
-class Circle {
-  constructor(x, y, xDir, yDir, color) {
-    this.x = x;
-    this.y = y;
-    this.xDir = xDir;
-    this.yDir = yDir;
-    this.color = color;
-  }
-
-  draw () {
-    context.beginPath();
-    context.arc(this.x, this.y, 60, 0, 2 * Math.PI, false);
-    context.fillStyle = this.color;
-    context.fill();
-  }
-}
-
-
-function constructCircle (color, index) {
-  const xDir = Math.floor(Math.random() * 3 + 1);
-  const yDir = Math.floor(Math.random() * 3 + 1);
-  return new Circle(100 + (index * 100), 100, xDir, yDir, color);
-}
-
-function animationLoop (circles) {
-  context.clearRect(0, 0, 600, 200);
-  circles.forEach(circle => { 
-    
-    circle.draw();
-    circle.x += circle.xDir;
-    circle.y += circle.yDir;
-
-    if (circle.x >= 540 || circle.x <= 60) {
-      circle.xDir *= -1;
-    }
-
-    if (circle.y >= 140 || circle.y <= 60) {
-      circle.yDir *= -1;
-    }
-  });
-
-  requestAnimationFrame(animationLoop.bind(this, circles));
-}
+$('.visualizerStartStop').on('click', showVisualizer);
