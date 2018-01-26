@@ -144,8 +144,10 @@ const toggleLockKey = (num) => {
 const toggleLock = (panel, lockIcon) => {
   frames[panel].locked = !frames[panel].locked;
   frames[panel].lock.toggleClass('icon-lock-open-1 icon-lock-1');
-  
-  $(`.${panel}`).toggleClass('highlight');
+
+  const getId = panel.match(RegExp(/\d+/))[0];
+
+  $(`.frame${getId}`).toggleClass('highlight');
   $(lockIcon).toggleClass('icon-lock-open-1 icon-lock-1');
   
 };
@@ -346,6 +348,20 @@ const saveProject = async () => {
   if (!projectNameInput.val().length) {
     return
   }
+
+  const projectRepeat = projects.find(project => RegExp(projectNameInput.val(), 'i').test(project.project_name));
+
+  if(projectRepeat) {
+    const errorSpan = `<span class="createProjectError">That Project Name is Already Taken</span>`;
+    $('.submitProject').append(errorSpan);
+
+    setTimeout(() => {
+      $('span').remove('.createProjectError');
+    }, 1000);
+    return;
+
+    return;
+  }
   
   const sendProject = await fetch('/api/v1/projects', {
     method: 'POST',
@@ -379,7 +395,6 @@ const selectProjectByClick = (event) => {
 
 const selectProjectByNew = (id) => {
   selectedProject = id;
-  console.log(id);
   updateProjects();
   $('.project').removeClass('selected');
   $(`.project${id}`).addClass('selected');
