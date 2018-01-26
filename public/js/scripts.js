@@ -359,8 +359,6 @@ const saveProject = async () => {
       $('span').remove('.createProjectError');
     }, 1000);
     return;
-
-    return;
   }
   
   const sendProject = await fetch('/api/v1/projects', {
