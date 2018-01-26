@@ -33,7 +33,7 @@
           <i class="icon-lock-open-1 shortLock5"></i>
           <span class="shortcut-box short5"></span>
           <span>SPACE</span>
-          <span class="shuffle">shuffle</span>
+          <span class="shuffle">Shuffle</span>
         </div>
       </div>
   </header>
@@ -43,7 +43,7 @@
         <div class="infoContainer">
           <span class="panelNumber">1</span>
           <span class="currentColor color1"></span>
-          <button class="editButton"><i class="icon-pencil-1"></i></button>
+          <!-- <button class="editButton"><i class="icon-pencil-1"></i></button> -->
           <button class="lockButton"><i class="icon-lock-open-1"></i></button>
         </div>
       </div>
@@ -51,7 +51,7 @@
         <div class="infoContainer">
           <span class="panelNumber">2</span>        
           <span class="currentColor color2"></span>
-          <button class="editButton"><i class="icon-pencil-1"></i></button>
+          <!-- <button class="editButton"><i class="icon-pencil-1"></i></button> -->
           <button class="lockButton"><i class="icon-lock-open-1"></i></button>
         </div>
       </div>
@@ -59,7 +59,7 @@
         <div class="infoContainer">
           <span class="panelNumber">3</span>
           <span class="currentColor color3"></span>
-          <button class="editButton"><i class="icon-pencil-1"></i></button>
+          <!-- <button class="editButton"><i class="icon-pencil-1"></i></button> -->
           <button class="lockButton"><i class="icon-lock-open-1"></i></button>
         </div>
       </div>
@@ -67,7 +67,7 @@
         <div class="infoContainer">
           <span class="panelNumber">4</span>        
           <span class="currentColor color4"></span>
-          <button class="editButton"><i class="icon-pencil-1"></i></button>
+          <!-- <button class="editButton"><i class="icon-pencil-1"></i></button> -->
           <button class="lockButton"><i class="icon-lock-open-1"></i></button>
         </div>
       </div>
@@ -75,20 +75,22 @@
         <div class="infoContainer">
           <span class="panelNumber">5</span>        
           <span class="currentColor color5"></span>
-          <button class="editButton"><i class="icon-pencil-1"></i></button>
+          <!-- <button class="editButton"><i class="icon-pencil-1"></i></button> -->
           <button class="lockButton"><i class="icon-lock-open-1"></i></button>
         </div>
       </div>
     </div>
+    <div class="featureButtons">
+      <button class="visualizerStartStop">Start Visualizer</button>
+      <button class="generate">Shuffle</button>
+    </div>
     <canvas class="colorVisualiztion" width="1000px" height="200px"></canvas>
-    <button class="visualizerStartStop">Start Visualizer</button>
-    <button class="generate">shuffle</button>
     <div class="saveSection">
 
       <div class="saveProject">
-          <h3>Create a new Project:</h3>
-          <input type="text" class="projectInput" placeholder="New project name" />
-          <button class="submitProject">Save Project</button>
+          <h3>Create a new Palette</h3>
+          <input class="paletteName" type="text" placeholder="Palette name" />
+          <button class="submitPaletteSave">Save Palette</button>
       </div> 
       <div class="savePalette">
         <div class="projectOptions">
@@ -96,8 +98,8 @@
           <div class="projectButtonContainer">
           </div>
         </div>
-        <input class="paletteName" type="text" placeholder="Palette name" />
-        <button class="submitPaletteSave">Save Palette</button>
+        <input type="text" class="projectInput" placeholder="New project name" />
+        <button class="submitProject">Save Project</button>
       </div>
     </div>
     <div class="paletteList">
