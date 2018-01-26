@@ -83,6 +83,7 @@ main {
           padding: 5px 0px;
           grid-column: span 2;
           text-align: center;
+          border-bottom: 1px solid rgb(215, 215, 215);
           color: rgb(215, 215, 215);
           .icon-clipboard {
             cursor: pointer;
@@ -108,7 +109,7 @@ main {
           border: none;
           padding: 8px;
           height: 57px;
-          border-top: 1px solid white;
+          width: 100%;
           color: white;
           position: relative;
           .icon-lock-1,
@@ -134,21 +135,33 @@ main {
     }
   }
 
+
   canvas {
-    display: block;
-    margin: 0px auto 60px;
+    display: none;
+    margin: 0px auto 20px;
     background-image: url('./fontello-39a7439d/font/fontello.svg');
+    &.showVisualizer {
+      display: block;
+    }
   }
 
-  .generate {
-    display: flex;
-    margin: 0px auto;
+  button {
+    width: 80px;
+  }
+
+  .generate,
+  .visualizerStartStop {
+    display: block;
+    margin: 10px auto;
     font-size: 30px;
     background: white;
     padding: 8px 30px;
     color: white;
     background: black;
     border: 1px solid black;
+    width: 300px;
+    font-weight: 300;
+    text-align: center;
     cursor: pointer;
     &:hover {
       color: black;
@@ -259,13 +272,13 @@ main {
       .palette {
         display: grid;
         grid-template-columns: repeat(6, 50px);
-        width: 100%;
         justify-items: center;
         align-items: center;
         h4 {
           grid-column: span 6;
         }
         .paletteC {
+          cursor: pointer;
           width: 100%;
           height: 50px;
         }
