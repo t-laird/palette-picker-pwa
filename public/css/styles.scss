@@ -53,7 +53,6 @@ main {
   .colorFrames {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    padding-bottom: 10px;
     width: 100%;
     .colorFrame {
       height: 300px;
@@ -112,6 +111,7 @@ main {
           width: 100%;
           color: white;
           position: relative;
+          grid-column: span 2;
           .icon-lock-1,
           .icon-lock-open-1 {
             position: absolute;
@@ -127,7 +127,7 @@ main {
           }
 
           &:nth-of-type(1) {
-            border-right: 1px solid white;
+            // border-right: 1px solid white;
           }
         }
 
@@ -145,23 +145,25 @@ main {
     }
   }
 
-  button {
-    width: 80px;
+
+  .featureButtons {
+    display: flex;
   }
 
   .generate,
   .visualizerStartStop {
     display: block;
-    margin: 10px auto;
     font-size: 30px;
     background: white;
     padding: 8px 30px;
+
     color: white;
     background: black;
     border: 1px solid black;
-    width: 300px;
+    width: 50%;
     font-weight: 300;
     text-align: center;
+    box-sizing: border-box;
     cursor: pointer;
     &:hover {
       color: black;
@@ -177,12 +179,23 @@ main {
   .savePalette {
     padding: 10px;
     display: grid;
+    position: relative;
     grid-gap: 10px;
     grid-template-columns: 2fr 1fr;
     margin: 0px auto;
     height: 150px;
     width: 100%;
     box-sizing: border-box;
+
+    .createProjectError {
+      position: absolute;
+      color: red;
+      z-index: 10;
+      bottom: -60px; 
+      left: 10px;
+      width: 200px;
+      font-weight: 700;
+    }
     
     .projectOptions {
       grid-column: span 2;
@@ -190,7 +203,11 @@ main {
       grid-template-columns: 1fr;
       box-sizing: border-box;
       h3 {
-        text-align: center;
+        margin: 0px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
       .projectButtonContainer {
         display: grid;
@@ -225,19 +242,7 @@ main {
       }
     }
 
-    .submitPaletteSave {
-      position: relative;
-    }
 
-    .createProjectError {
-      position: absolute;
-      color: red;
-      z-index: 10;
-      bottom: -40px; 
-      left: 0px;
-      width: 100%;
-      font-weight: 700;
-    }
   }
 
   .saveProject {
@@ -252,6 +257,7 @@ main {
     h3 {
       display: flex;
       align-items: center;
+      justify-content: center;
       grid-column: span 3;
       height: 50px;
       margin: 0px;
@@ -260,6 +266,19 @@ main {
       grid-column: span 2;
       width: 100%;
       height: 100%;
+    }
+    .submitPaletteSave {
+      position: relative;
+    }
+
+    .createProjectError {
+      position: absolute;
+      color: red;
+      z-index: 10;
+      bottom: -40px; 
+      left: -100px;
+      width: 200px;
+      font-weight: 700;
     }
   }
 
