@@ -8,10 +8,6 @@ const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 
 app.set('port', process.env.PORT || 3000);
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static(path.join(__dirname, 'public')));
-
 const requireHTTPS = (req, res, next) => {
   if (req.headers['x-forwarded-proto'] !== 'https') {
     return res.redirect('https://' + req.get('host') + req.url);
@@ -20,6 +16,10 @@ const requireHTTPS = (req, res, next) => {
 };
 
 app.use(requireHTTPS);
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(app.get('port'), () => {
   console.log(`Palette picker listening on port ${app.get('port')}.`);
