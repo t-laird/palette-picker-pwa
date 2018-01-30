@@ -12,19 +12,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.listen(app.get('port'), () => {
-  console.log(`Palette picker listening on port ${app.get('port')}.`);
-});
-
 const requireHTTPS = (req, res, next) => {
   if (req.header['x-forwarded-proto'] !== 'https') {
-    res.redirect('https://' + req.get('host') +req.url);
+    return res.redirect('https://' + req.get('host') +req.url);
   } else {
     next();
   }
 };
 
 app.use(requireHTTPS);
+
+app.listen(app.get('port'), () => {
+  console.log(`Palette picker listening on port ${app.get('port')}.`);
+});
 
 app.get('/api/v1/palettes/', (request, response) => {
   database('palettes').select()
