@@ -18,7 +18,7 @@ app.listen(app.get('port'), () => {
 
 const requireHTTPS = (req, res, next) => {
   if (req.header['x-forwarded-proto'] !== 'https') {
-    res.redirect(`https://${req.header('host')}${req.url}`);
+    res.redirect('https://' + req.get('host') +req.url);
   } else {
     next();
   }
