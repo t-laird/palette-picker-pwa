@@ -21,8 +21,6 @@ const requireHTTPS = (req, res, next) => {
 
 app.use(requireHTTPS);
 
-app.use(requireHTTPS);
-
 app.listen(app.get('port'), () => {
   console.log(`Palette picker listening on port ${app.get('port')}.`);
 });
