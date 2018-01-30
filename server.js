@@ -16,6 +16,14 @@ app.listen(app.get('port'), () => {
   console.log(`Palette picker listening on port ${app.get('port')}.`);
 });
 
+app.use((req, res, next) => {
+  if (req.header['x-forwarded-proto'] !== 'https') {
+    res.redirect(`https://${req.header('host')}${req.url}`);
+  } else {
+    next();
+  }
+});
+
 app.get('/api/v1/palettes/', (request, response) => {
   database('palettes').select()
     .then(palettes => {
