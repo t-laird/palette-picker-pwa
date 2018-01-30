@@ -13,11 +13,13 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 const requireHTTPS = (req, res, next) => {
-  if (req.header['x-forwarded-proto'] !== 'https') {
-    return res.redirect('https://' + req.get('host') +req.url);
+  if (req.header['x-forwarded-proto'] != 'https') {
+    return res.redirect('https://' + req.get('host') + req.url);
   }
-  next();
+    next();
 };
+
+app.use(requireHTTPS);
 
 app.use(requireHTTPS);
 
