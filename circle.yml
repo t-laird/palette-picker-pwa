@@ -12,3 +12,9 @@ database:
   override:
     - createdb palettepicker_test
     - knex migrate:latest
+
+deployment:
+  staging:
+    branch: master
+    heroku:
+      appname: tl-palette-picker-pwa
