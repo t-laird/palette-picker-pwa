@@ -10,4 +10,5 @@ environment:
 
 database:
   override:
+    - createdb palettepicker_test
     - knex migrate:latest
