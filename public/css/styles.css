@@ -44,7 +44,6 @@ main .colorFrames {
   width: 100%; }
   main .colorFrames .colorFrame {
     height: 300px;
-    min-height: 280px;
     background: black;
     position: relative;
     display: flex;
@@ -243,3 +242,30 @@ main .paletteList {
       main .paletteList .paletteContainer .palette i {
         font-size: 30px;
         cursor: pointer; }
+
+@media screen and (max-width: 680px) {
+  header {
+    grid-template-columns: 1fr; }
+    header h1 {
+      font-size: 40px; }
+    header .guide h3 {
+      font-size: 20px; }
+    header .guide .shortcuts {
+      width: 320px; }
+  main canvas {
+    width: 300px; }
+  main .colorFrames {
+    grid-template-columns: 1fr;
+    grid-gap: 0px; }
+    main .colorFrames .colorFrame {
+      height: 160px;
+      border-bottom: none; }
+  main .saveSection {
+    grid-template-columns: 1fr; }
+  main .paletteList .paletteContainer {
+    display: grid;
+    grid-template-columns: 1fr; }
+  main .savePalette {
+    margin-bottom: 80px; }
+    main .savePalette .projectOptions .projectButtonContainer {
+      grid-template-columns: 1fr 1fr; } }
