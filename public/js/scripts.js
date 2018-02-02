@@ -309,9 +309,9 @@ const persistPalettes = async (paletteInfo) => {
 
 const paletteSave = () => {
   let paletteInfo = {};
-  const paletNameInput = $('.paletteName');
+  const paletteNameInput = $('.paletteName');
 
-  if (!paletNameInput.val()) {
+  if (!paletteNameInput.val()) {
     const errorSpan = `<span class="createProjectError">ENTER A VALID PALETTE NAME</span>`;
     $('.submitPaletteSave').append(errorSpan);
 
@@ -335,10 +335,11 @@ const paletteSave = () => {
     colorIndex++;
   }
 
-  paletteInfo.palette_name = paletNameInput.val();
+  paletteInfo.palette_name = paletteNameInput.val();
   paletteInfo.project_id = selectedProject;
   updatePalettes();
-  paletNameInput.val('');
+  notifyPaletteAdded(paletteNameInput.val());
+  paletteNameInput.val('');
 
   persistPalettes(paletteInfo);
 };
@@ -379,6 +380,14 @@ const saveProject = async () => {
   projectNameInput.val('');
 };
 
+const notifyPaletteAdded = (name) => {
+  navigator.serviceWorker.controller.postMessage({ 
+    type: 'add-palette',
+    paletteName: name
+  });
+}
+
+
 const selectProjectByClick = (event) => {
   const targetedProject = $(event.target);
   const projectClasses = $(targetedProject).attr('class');
@@ -411,8 +420,6 @@ const showVisualizer = () => {
 
 }
 
-
-
 $('document').ready(fetchInitialData);
 $('.generate').on('click', randomizeColors);
 $('.lockButton').on('click', toggleLockClick);
@@ -422,3 +429,20 @@ $(document.body).click(closeDropdown);
 $('.submitPaletteSave').on('click', paletteSave);
 $('.submitProject').on('click', saveProject);
 $('.visualizerStartStop').on('click', showVisualizer);
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    
+    
+    // Register a new service worker
+    navigator.serviceWorker.register('../service-worker.js')
+      .then(registration => navigator.serviceWorker.ready)
+      .then(registration => {
+        Notification.requestPermission();
+        console.log('ServiceWorker registration successful');
+      }).catch(err => {
+        console.log(`ServiceWorker registration failed: ${err}`);
+      });
+
+  });
+}
