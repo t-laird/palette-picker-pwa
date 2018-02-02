@@ -56,7 +56,6 @@ main {
     width: 100%;
     .colorFrame {
       height: 300px;
-      min-height: 280px;
       background: black;
       position: relative;
       display: flex;
@@ -307,6 +306,57 @@ main {
         }
       }
 
+    }
+  }
+}
+
+@media screen and (max-width: 680px) {
+  header {
+    grid-template-columns: 1fr;
+    h1 {
+      font-size: 40px;
+    }
+    .guide {
+      h3 {
+        font-size: 20px;
+      }
+      .shortcuts {
+        width: 320px;
+      }
+    }
+  }
+
+  main {
+    canvas {
+      width: 300px;
+    }
+
+    .colorFrames {
+      grid-template-columns: 1fr;
+      grid-gap: 0px;
+      .colorFrame {
+        height: 160px;
+        border-bottom: none;
+        
+      }
+    }
+    .saveSection {
+      grid-template-columns: 1fr;
+    }
+    .paletteList {
+      .paletteContainer {
+        display: grid;
+        grid-template-columns: 1fr; 
+      }
+    }
+
+    .savePalette {
+      margin-bottom: 80px;
+      .projectOptions {
+        .projectButtonContainer {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
     }
   }
 }
